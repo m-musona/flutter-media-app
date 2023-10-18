@@ -4,8 +4,8 @@ import '../consts/colors.dart';
 import '../consts/text_style.dart';
 import '../widgets/sidebar.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class PlayQueueView extends StatelessWidget {
+  const PlayQueueView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class Home extends StatelessWidget {
       drawer: const NavigationSidebar(),
       body: Center(
         child: Text(
-          'Home',
+          'Play Queue',
           style: appTextStyle(size: 15),
         ),
       ),

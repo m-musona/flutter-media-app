@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_media_app/consts/colors.dart';
-import 'package:flutter_media_app/consts/text_style.dart';
-import 'package:flutter_media_app/controllers/audio_player_controller.dart';
 import 'package:get/get.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+
+import '../consts/colors.dart';
+import '../consts/text_style.dart';
+import '../controllers/audio_player_controller.dart';
+import 'audio_details.dart';
 
 class AudioPlayerScreen extends StatelessWidget {
   final List<SongModel> data;
@@ -25,6 +27,22 @@ class AudioPlayerScreen extends StatelessWidget {
             color: whiteColor,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.to(
+                () => AudioDetailsView(
+                  data: data[controller.playIndex.value],
+                ),
+                transition: Transition.downToUp,
+              );
+            },
+            icon: const Icon(
+              Icons.more_vert,
+              color: whiteColor,
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
@@ -37,8 +55,7 @@ class AudioPlayerScreen extends StatelessWidget {
                   height: 300,
                   width: 300,
                   decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red,
+                    shape: BoxShape.rectangle,
                   ),
                   alignment: Alignment.center,
                   child: QueryArtworkWidget(
@@ -110,6 +127,7 @@ class AudioPlayerScreen extends StatelessWidget {
                                 value: controller.value.value,
                                 onChanged: (newValue) {
                                   controller.changeDurationToSeconds(
+                                    data,
                                     newValue.toInt(),
                                   );
                                   newValue = newValue;
@@ -127,6 +145,14 @@ class AudioPlayerScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.shuffle_rounded,
+                              size: 30,
+                              color: Colors.black54,
+                            ),
+                          ),
                           IconButton(
                             onPressed: () {
                               controller.playSong(
@@ -179,6 +205,14 @@ class AudioPlayerScreen extends StatelessWidget {
                               Icons.skip_next_rounded,
                               size: 40,
                               color: backgroundDarkColor,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.repeat,
+                              size: 30,
+                              color: Colors.black54,
                             ),
                           ),
                         ],

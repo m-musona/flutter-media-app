@@ -6,6 +6,11 @@ import 'package:permission_handler/permission_handler.dart';
 class AudioPlayerController extends GetxController {
   final audioQuery = OnAudioQuery();
   final audioPlayer = AudioPlayer();
+  List<SongModel> playQueue = [];
+  List<SongModel> allSongs = [];
+  var playLists = [];
+  var artists = [];
+  var albums = [];
 
   var playIndex = 0.obs;
   var isPlaying = false.obs;
@@ -33,7 +38,7 @@ class AudioPlayerController extends GetxController {
     });
   }
 
-  changeDurationToSeconds(seconds) {
+  changeDurationToSeconds(data, seconds) {
     var duration = Duration(seconds: seconds);
     audioPlayer.seek(duration);
   }

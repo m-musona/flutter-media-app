@@ -4,8 +4,8 @@ import '../consts/colors.dart';
 import '../consts/text_style.dart';
 import '../widgets/sidebar.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class GenresView extends StatelessWidget {
+  const GenresView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class Home extends StatelessWidget {
       drawer: const NavigationSidebar(),
       body: Center(
         child: Text(
-          'Home',
+          'Genres',
           style: appTextStyle(size: 15),
         ),
       ),
