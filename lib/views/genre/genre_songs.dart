@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:on_audio_query/on_audio_query.dart';
 
-import '../consts/colors.dart';
-import '../consts/text_style.dart';
-import '../widgets/sidebar.dart';
+import '../../consts/colors.dart';
+import '../../consts/text_style.dart';
+import '../../controllers/audio_player_controller.dart';
+import '../../widgets/sidebar.dart';
+import '../songs.dart';
 
-class AlbumsView extends StatelessWidget {
-  const AlbumsView({super.key});
+class GenreSongs extends StatelessWidget {
+  final AudioPlayerController audioController;
+  final List<SongModel> songList;
+  const GenreSongs({
+    super.key,
+    required this.audioController,
+    required this.songList,
+  });
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: backgroundDarkColor,
@@ -26,7 +34,7 @@ class AlbumsView extends StatelessWidget {
           ),
         ),
         title: Text(
-          "Flutter Music",
+          "Genre",
           style: appTextStyle(
             size: 18,
           ),
@@ -42,11 +50,10 @@ class AlbumsView extends StatelessWidget {
         ],
       ),
       drawer: const NavigationSidebar(),
-      body: Center(
-        child: Text(
-          'Albums',
-          style: appTextStyle(size: 15),
-        ),
+      body: SongsView(
+        songList: songList,
+        audioController: audioController,
+        fromPlaylist: false,
       ),
     );
   }

@@ -48,28 +48,18 @@ class AudioPlayerScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
         child: Column(
           children: [
-            Obx(
-              () => Expanded(
-                child: Container(
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  height: 300,
-                  width: 300,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.rectangle,
-                  ),
-                  alignment: Alignment.center,
-                  child: QueryArtworkWidget(
-                    id: data[controller.playIndex.value].id,
-                    type: ArtworkType.AUDIO,
-                    artworkHeight: double.infinity,
-                    artworkWidth: double.infinity,
-                    nullArtworkWidget: const Icon(
-                      Icons.music_note,
-                      size: 48,
-                      color: whiteColor,
-                    ),
-                  ),
-                ),
+            QueryArtworkWidget(
+              id: data[controller.playIndex.value].id,
+              artworkBorder: BorderRadius.zero,
+              artworkHeight: 400,
+              artworkWidth: 400,
+              format: ArtworkFormat.PNG,
+              quality: 100,
+              type: ArtworkType.AUDIO,
+              nullArtworkWidget: const Icon(
+                Icons.music_note,
+                color: whiteColor,
+                size: 60,
               ),
             ),
             const SizedBox(height: 12),

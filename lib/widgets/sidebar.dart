@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_media_app/consts/text_style.dart';
 import 'package:get/get.dart';
 
 import '../consts/colors.dart';
-import '../views/albums.dart';
-import '../views/artists.dart';
-import '../views/genres.dart';
+import '../consts/text_style.dart';
+import '../controllers/audio_player_controller.dart';
+import '../views/album/albums.dart';
+import '../views/all_songs.dart';
+import '../views/artist/artists.dart';
+import '../views/genre/genres.dart';
 import '../views/home.dart';
 import '../views/play_queue.dart';
-import '../views/playlists.dart';
-import '../views/songs.dart';
+import '../views/playlist/playlists.dart';
 
 class NavigationSidebar extends StatelessWidget {
-  const NavigationSidebar({
-    Key? key,
-  }) : super(key: key);
+  const NavigationSidebar({super.key});
 
   final double iconSize = 40;
   final double orangeIconSize = 25;
 
   @override
   Widget build(BuildContext context) {
+    var audioController = Get.put(AudioPlayerController());
     return Drawer(
       backgroundColor: backgroundDarkColor,
       child: Container(
@@ -113,7 +113,11 @@ class NavigationSidebar extends StatelessWidget {
                   style: appTextStyle(size: 17),
                 ),
                 onTap: () {
-                  Get.to(const SongsView());
+                  Get.to(
+                    AllSongs(
+                      audioController: audioController,
+                    ),
+                  );
                 },
               ),
               ListTile(

@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-import '../consts/colors.dart';
-import '../consts/text_style.dart';
-import '../controllers/audio_player_controller.dart';
-import '../widgets/list_song.dart';
-import '../widgets/sidebar.dart';
+import '../../consts/colors.dart';
+import '../../consts/text_style.dart';
+import '../../controllers/audio_player_controller.dart';
+import '../../widgets/list_genre.dart';
+import '../../widgets/sidebar.dart';
 
-class PlayQueueView extends StatelessWidget {
-  const PlayQueueView({super.key});
+class GenresView extends StatelessWidget {
+  const GenresView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.put(AudioPlayerController());
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+    var controller = Get.put(AudioPlayerController());
 
     return Scaffold(
       key: scaffoldKey,
@@ -47,29 +47,23 @@ class PlayQueueView extends StatelessWidget {
         ],
       ),
       drawer: const NavigationSidebar(),
-      body: controller.playQueue.isEmpty
+      body: controller.genres.isEmpty
           ? Center(
               child: Text(
-                "No Songs In Play Queue",
+                "No Genres Found",
                 style: appTextStyle(),
               ),
             )
-          : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: controller.playQueue.length,
-                itemBuilder: (BuildContext context, int index) {
-                  SongModel song = controller.playQueue[index];
-                  return ListSong(
-                    isPlayQueue: true,
-                    song: song,
-                    songList: controller.playQueue,
-                    controller: controller,
-                    index: index,
-                  );
-                },
-              ),
+          : ListView.builder(
+              shrinkWrap: true,
+              itemCount: controller.genres.length,
+              itemBuilder: (BuildContext context, int index) {
+                GenreModel genre = controller.genres[index];
+                return ListGenre(
+                  genre: genre,
+                  controller: controller,
+                );
+              },
             ),
     );
   }

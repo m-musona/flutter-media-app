@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 
 import '../consts/colors.dart';
 import '../consts/text_style.dart';
+import '../controllers/audio_player_controller.dart';
 import '../widgets/sidebar.dart';
+import 'songs.dart';
 
-class PlaylistsView extends StatelessWidget {
-  const PlaylistsView({super.key});
+class AllSongs extends StatelessWidget {
+  final AudioPlayerController audioController;
+  const AllSongs({
+    super.key,
+    required this.audioController,
+  });
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: backgroundDarkColor,
@@ -26,7 +31,7 @@ class PlaylistsView extends StatelessWidget {
           ),
         ),
         title: Text(
-          "Flutter Music",
+          "Songs",
           style: appTextStyle(
             size: 18,
           ),
@@ -42,11 +47,10 @@ class PlaylistsView extends StatelessWidget {
         ],
       ),
       drawer: const NavigationSidebar(),
-      body: Center(
-        child: Text(
-          'Playlists',
-          style: appTextStyle(size: 15),
-        ),
+      body: SongsView(
+        songList: audioController.allSongs,
+        audioController: audioController,
+        fromPlaylist: false,
       ),
     );
   }
