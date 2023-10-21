@@ -49,13 +49,15 @@ class AudioPlayerScreen extends StatelessWidget {
         child: Column(
           children: [
             QueryArtworkWidget(
-              id: data[controller.playIndex.value].id,
+              id: data[controller.playIndex.value].albumId!,
               artworkBorder: BorderRadius.zero,
-              artworkHeight: 400,
-              artworkWidth: 400,
+              controller: controller.audioQuery,
+              artworkHeight: 350,
+              artworkWidth: 350,
+              size: 350,
               format: ArtworkFormat.PNG,
               quality: 100,
-              type: ArtworkType.AUDIO,
+              type: ArtworkType.ALBUM,
               nullArtworkWidget: const Icon(
                 Icons.music_note,
                 color: whiteColor,
