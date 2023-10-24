@@ -62,6 +62,7 @@ class ListArtist extends StatelessWidget {
                   ArtistSongs(
                     audioController: controller,
                     songList: controller.artistSongs,
+                    artist: artist,
                   ),
                 ),
               );

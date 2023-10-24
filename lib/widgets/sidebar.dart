@@ -1,26 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../consts/colors.dart';
 import '../consts/text_style.dart';
-import '../controllers/audio_player_controller.dart';
-import '../views/album/albums.dart';
-import '../views/all_songs.dart';
-import '../views/artist/artists.dart';
-import '../views/genre/genres.dart';
-import '../views/home.dart';
-import '../views/play_queue.dart';
-import '../views/playlist/playlists.dart';
+import '../controllers/pages_controller.dart';
 
 class NavigationSidebar extends StatelessWidget {
-  const NavigationSidebar({super.key});
+  final PagesController pagesController;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  const NavigationSidebar({
+    super.key,
+    required this.pagesController,
+    required this.scaffoldKey,
+  });
 
   final double iconSize = 40;
   final double orangeIconSize = 25;
 
   @override
   Widget build(BuildContext context) {
-    var audioController = Get.put(AudioPlayerController());
     return Drawer(
       backgroundColor: backgroundDarkColor,
       child: Container(
@@ -39,7 +36,8 @@ class NavigationSidebar extends StatelessWidget {
                   style: appTextStyle(),
                 ),
                 onTap: () {
-                  Get.to(const Home());
+                  pagesController.currentPageIndex.value = 0;
+                  scaffoldKey.currentState?.closeDrawer();
                 },
               ),
               const Divider(
@@ -56,7 +54,8 @@ class NavigationSidebar extends StatelessWidget {
                   style: appTextStyle(size: 17),
                 ),
                 onTap: () {
-                  Get.to(const PlayQueueView());
+                  pagesController.currentPageIndex.value = 1;
+                  scaffoldKey.currentState?.closeDrawer();
                 },
               ),
               ListTile(
@@ -70,7 +69,8 @@ class NavigationSidebar extends StatelessWidget {
                   style: appTextStyle(size: 17),
                 ),
                 onTap: () {
-                  Get.to(const PlaylistsView());
+                  pagesController.currentPageIndex.value = 2;
+                  scaffoldKey.currentState?.closeDrawer();
                 },
               ),
               const Divider(),
@@ -85,7 +85,8 @@ class NavigationSidebar extends StatelessWidget {
                   style: appTextStyle(size: 17),
                 ),
                 onTap: () {
-                  Get.to(const ArtistsView());
+                  pagesController.currentPageIndex.value = 3;
+                  scaffoldKey.currentState?.closeDrawer();
                 },
               ),
               ListTile(
@@ -99,7 +100,8 @@ class NavigationSidebar extends StatelessWidget {
                   style: appTextStyle(size: 17),
                 ),
                 onTap: () {
-                  Get.to(const AlbumsView());
+                  pagesController.currentPageIndex.value = 4;
+                  scaffoldKey.currentState?.closeDrawer();
                 },
               ),
               ListTile(
@@ -113,11 +115,8 @@ class NavigationSidebar extends StatelessWidget {
                   style: appTextStyle(size: 17),
                 ),
                 onTap: () {
-                  Get.to(
-                    AllSongs(
-                      audioController: audioController,
-                    ),
-                  );
+                  pagesController.currentPageIndex.value = 5;
+                  scaffoldKey.currentState?.closeDrawer();
                 },
               ),
               ListTile(
@@ -131,7 +130,8 @@ class NavigationSidebar extends StatelessWidget {
                   style: appTextStyle(size: 17),
                 ),
                 onTap: () {
-                  Get.to(const GenresView());
+                  pagesController.currentPageIndex.value = 6;
+                  scaffoldKey.currentState?.closeDrawer();
                 },
               ),
             ],

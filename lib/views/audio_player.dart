@@ -8,13 +8,14 @@ import '../controllers/audio_player_controller.dart';
 import 'audio_details.dart';
 
 class AudioPlayerScreen extends StatelessWidget {
-  final List<SongModel> data;
-  const AudioPlayerScreen({super.key, required this.data});
+  final AudioPlayerController controller;
+  const AudioPlayerScreen({
+    super.key,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.find<AudioPlayerController>();
-
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -32,7 +33,7 @@ class AudioPlayerScreen extends StatelessWidget {
             onPressed: () {
               Get.to(
                 () => AudioDetailsView(
-                  data: data[controller.playIndex.value],
+                  data: controller.playQueue[controller.playIndex.value],
                 ),
                 transition: Transition.downToUp,
               );
@@ -48,20 +49,22 @@ class AudioPlayerScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
         child: Column(
           children: [
-            QueryArtworkWidget(
-              id: data[controller.playIndex.value].albumId!,
-              artworkBorder: BorderRadius.zero,
-              controller: controller.audioQuery,
-              artworkHeight: 350,
-              artworkWidth: 350,
-              size: 350,
-              format: ArtworkFormat.PNG,
-              quality: 100,
-              type: ArtworkType.ALBUM,
-              nullArtworkWidget: const Icon(
-                Icons.music_note,
-                color: whiteColor,
-                size: 60,
+            Obx(
+              () => QueryArtworkWidget(
+                id: controller.playQueue[controller.playIndex.value].albumId!,
+                artworkBorder: BorderRadius.zero,
+                controller: controller.audioQuery,
+                artworkHeight: 350,
+                artworkWidth: 350,
+                size: 350,
+                format: ArtworkFormat.PNG,
+                quality: 100,
+                type: ArtworkType.ALBUM,
+                nullArtworkWidget: const Icon(
+                  Icons.music_note,
+                  color: whiteColor,
+                  size: 350,
+                ),
               ),
             ),
             const SizedBox(height: 12),
@@ -79,7 +82,8 @@ class AudioPlayerScreen extends StatelessWidget {
                   () => Column(
                     children: [
                       Text(
-                        data[controller.playIndex.value].displayNameWOExt,
+                        controller.playQueue[controller.playIndex.value]
+                            .displayNameWOExt,
                         style: appTextStyle(
                           color: backgroundDarkColor,
                           size: 18,
@@ -90,7 +94,8 @@ class AudioPlayerScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        data[controller.playIndex.value].artist!.toString(),
+                        controller.playQueue[controller.playIndex.value].artist!
+                            .toString(),
                         style: appTextStyle(
                           color: backgroundDarkColor,
                           size: 14,
@@ -119,7 +124,7 @@ class AudioPlayerScreen extends StatelessWidget {
                                 value: controller.value.value,
                                 onChanged: (newValue) {
                                   controller.changeDurationToSeconds(
-                                    data,
+                                    controller.playQueue,
                                     newValue.toInt(),
                                   );
                                   newValue = newValue;
@@ -148,7 +153,11 @@ class AudioPlayerScreen extends StatelessWidget {
                           IconButton(
                             onPressed: () {
                               controller.playSong(
-                                data[controller.playIndex.value - 1].uri,
+                                controller
+                                    .playQueue[controller.playIndex.value - 1],
+                                controller
+                                    .playQueue[controller.playIndex.value - 1]
+                                    .uri!,
                                 controller.playIndex.value - 1,
                               );
                             },
@@ -189,7 +198,11 @@ class AudioPlayerScreen extends StatelessWidget {
                           IconButton(
                             onPressed: () {
                               controller.playSong(
-                                data[controller.playIndex.value + 1].uri,
+                                controller
+                                    .playQueue[controller.playIndex.value + 1],
+                                controller
+                                    .playQueue[controller.playIndex.value + 1]
+                                    .uri!,
                                 controller.playIndex.value + 1,
                               );
                             },

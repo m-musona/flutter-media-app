@@ -2,65 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-import '../consts/colors.dart';
 import '../consts/text_style.dart';
 import '../controllers/audio_player_controller.dart';
 import '../widgets/grid_song.dart';
-import '../widgets/sidebar.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  final AudioPlayerController controller;
+  const Home({
+    super.key,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-    var controller = Get.put(AudioPlayerController());
-
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: backgroundDarkColor,
-      appBar: AppBar(
-        backgroundColor: backgroundDarkColor,
-        leading: IconButton(
-          onPressed: () {
-            scaffoldKey.currentState?.openDrawer();
-          },
-          icon: const Icon(
-            Icons.sort_rounded,
-            color: whiteColor,
-          ),
-        ),
-        title: Text(
-          "Flutter Music",
-          style: appTextStyle(
-            size: 18,
-          ),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.search,
-              color: whiteColor,
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              'Play Queue',
+              textAlign: TextAlign.left,
+              style: appTextStyle(size: 16),
             ),
           ),
-        ],
-      ),
-      drawer: const NavigationSidebar(),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                'Play Queue',
-                textAlign: TextAlign.left,
-                style: appTextStyle(size: 16),
-              ),
-            ),
-            SizedBox(
+          Obx(
+            () => SizedBox(
               height: 170,
               child: controller.playQueue.isEmpty
                   ? Center(
@@ -72,50 +41,74 @@ class Home extends StatelessWidget {
                   : ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
-                      itemCount: controller.playQueue.length,
+                      itemCount: controller.playQueue.isEmpty
+                          ? 1
+                          : controller.playQueue.length,
                       itemBuilder: (BuildContext context, int index) {
                         SongModel song = controller.playQueue[index];
-                        return GridSong(song: song);
+                        if (controller.playQueue.isEmpty) {
+                          return Center(
+                            child: Text(
+                              "No Songs In Play Queue",
+                              style: appTextStyle(),
+                            ),
+                          );
+                        } else {
+                          return GridSong(
+                            song: song,
+                            songList: controller.playQueue,
+                            controller: controller,
+                            index: index,
+                            isPlayQueue: true,
+                          );
+                        }
                       },
                     ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                'Recently Added',
-                textAlign: TextAlign.left,
-                style: appTextStyle(size: 16),
-              ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text(
+              'Recently Added',
+              textAlign: TextAlign.left,
+              style: appTextStyle(size: 16),
             ),
-            controller.allSongs.isEmpty
-                ? SizedBox(
-                    height: 200,
-                    child: Center(
-                      child: Text(
-                        "No Songs Found",
-                        style: appTextStyle(),
+          ),
+          Obx(
+            () => SizedBox(
+              child: controller.allSongs.isEmpty
+                  ? SizedBox(
+                      height: 200,
+                      child: Center(
+                        child: Text(
+                          "No Recently Added Songs Found",
+                          style: appTextStyle(),
+                        ),
                       ),
+                    )
+                  : GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 0.7,
+                      ),
+                      shrinkWrap: true,
+                      itemCount: controller.recentlyAddedSongs.length,
+                      itemBuilder: (BuildContext context, index) {
+                        SongModel song = controller.recentlyAddedSongs[index];
+                        return GridSong(
+                          song: song,
+                          songList: controller.recentlyAddedSongs,
+                          controller: controller,
+                          index: index,
+                          isPlayQueue: false,
+                        );
+                      },
                     ),
-                  )
-                : GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: 0.7,
-                    ),
-                    shrinkWrap: true,
-                    itemCount: 12,
-                    itemBuilder: (BuildContext context, index) {
-                      List<SongModel> recentlyAddedsong = controller.allSongs;
-                      recentlyAddedsong.sort((songA, songB) =>
-                          songB.dateAdded!.compareTo(songA.dateAdded!));
-                      SongModel song = recentlyAddedsong[index];
-                      return GridSong(song: song);
-                    },
-                  ),
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

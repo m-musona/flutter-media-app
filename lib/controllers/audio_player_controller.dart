@@ -8,7 +8,8 @@ class AudioPlayerController extends GetxController {
   final audioPlayer = AudioPlayer();
   var playQueue = <SongModel>[].obs;
   var allSongs = <SongModel>[].obs;
-  var currentlyPlayingSongID = 0.obs;
+  var recentlyAddedSongs = <SongModel>[].obs;
+  var currentlyPlayingSong = Rx<SongModel?>(null);
   var playlists = <PlaylistModel>[].obs;
   var playlist = <SongModel>[].obs;
   var artistSongs = <SongModel>[].obs;
@@ -54,6 +55,11 @@ class AudioPlayerController extends GetxController {
     allSongs.removeWhere((songs) => songs.isRingtone == true);
     allSongs.removeWhere((songs) => songs.isNotification == true);
     allSongs.removeWhere((songs) => songs.isAlarm == true);
+
+    allSongs
+        .sort((songA, songB) => songB.dateAdded!.compareTo(songA.dateAdded!));
+    recentlyAddedSongs.value = allSongs.take(12).toList();
+    allSongs.sort((songA, songB) => songA.title.compareTo(songB.title));
 
     playlists.value = await audioQuery.queryPlaylists(
       ignoreCase: true,
@@ -127,40 +133,28 @@ class AudioPlayerController extends GetxController {
     audioPlayer.seek(duration);
   }
 
-  playSongAndAddToPlayQueue(
-    int songID,
+  changePlayQueue(List<SongModel>? whereSongIsFrom) {
+    playQueue.value = whereSongIsFrom!;
+  }
+
+  playSong(
+    SongModel? song,
     String songUri,
-    List<SongModel> whereSongIsFrom,
     songIndex,
   ) {
     playIndex.value = songIndex;
     try {
-      audioPlayer.setAudioSource(
-        AudioSource.uri(
-          Uri.parse(songUri),
-        ),
-      );
-      audioPlayer.play();
-      currentlyPlayingSongID.value = songID;
-      playQueue.value = whereSongIsFrom;
-      isPlaying(true);
-      updatePosition();
-    } on Exception catch (e) {
-      print(e.toString());
-    }
-  }
-
-  playSong(String? uri, index) {
-    playIndex.value = index;
-    try {
-      audioPlayer.setAudioSource(
-        AudioSource.uri(
-          Uri.parse(uri!),
-        ),
-      );
-      audioPlayer.play();
-      isPlaying(true);
-      updatePosition();
+      if (song != currentlyPlayingSong.value) {
+        audioPlayer.setAudioSource(
+          AudioSource.uri(
+            Uri.parse(songUri),
+          ),
+        );
+        audioPlayer.play();
+        updatePosition();
+        isPlaying(true);
+      }
+      currentlyPlayingSong.value = song;
     } on Exception catch (e) {
       print(e.toString());
     }

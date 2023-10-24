@@ -28,15 +28,15 @@ class SongsView extends StatelessWidget {
         : Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListView.builder(
-              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              physics: fromPlaylist
+                  ? const NeverScrollableScrollPhysics()
+                  : const BouncingScrollPhysics(),
               itemCount: songList.length,
               itemBuilder: (BuildContext context, int index) {
                 if (fromPlaylist) {
                   songList.sort((songA, songB) =>
                       songB.dateAdded!.compareTo(songA.dateAdded!));
-                } else {
-                  songList.sort(
-                      (songA, songB) => songA.title.compareTo(songB.title));
                 }
                 SongModel song = songList[index];
                 return ListSong(

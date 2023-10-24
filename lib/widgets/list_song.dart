@@ -62,7 +62,7 @@ class ListSong extends StatelessWidget {
                     size: 60,
                   ),
                 ),
-          trailing: controller.currentlyPlayingSongID.value == song.id &&
+          trailing: controller.currentlyPlayingSong.value == song &&
                   controller.isPlaying.value
               ? const Icon(
                   Icons.play_arrow,
@@ -75,18 +75,20 @@ class ListSong extends StatelessWidget {
                   size: 26,
                 ),
           onTap: () {
-            controller.playSongAndAddToPlayQueue(
-              song.id,
+            controller.playSong(
+              song,
               song.uri!,
-              songList,
               index,
             );
-            Get.to(
-              () => AudioPlayerScreen(
-                data: songList,
-              ),
-              transition: Transition.downToUp,
-            );
+            if (!isPlayQueue) {
+              controller.changePlayQueue(songList);
+              Get.to(
+                () => AudioPlayerScreen(
+                  controller: controller,
+                ),
+                transition: Transition.downToUp,
+              );
+            }
           },
         ),
       ),

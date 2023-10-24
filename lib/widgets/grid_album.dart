@@ -25,6 +25,7 @@ class GridAlbum extends StatelessWidget {
                 AlbumSongs(
                   audioController: controller,
                   songList: controller.albumSongs,
+                  album: album,
                 ),
               ),
             );

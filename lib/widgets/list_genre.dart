@@ -60,6 +60,7 @@ class ListGenre extends StatelessWidget {
                   GenreSongs(
                     audioController: controller,
                     songList: controller.genreSongs,
+                    genre: genre,
                   ),
                 ),
               );

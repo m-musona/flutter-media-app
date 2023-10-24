@@ -62,6 +62,7 @@ class ListPlaylist extends StatelessWidget {
                   PlaylistSongs(
                     audioController: controller,
                     songList: controller.playlist,
+                    playlist: playlist,
                   ),
                 ),
               );
