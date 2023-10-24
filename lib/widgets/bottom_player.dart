@@ -113,27 +113,30 @@ class BottomPlayer extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 0),
                   child: Row(
                     children: [
-                      IconButton(
-                        disabledColor: disabledColor,
-                        color: whiteColor,
-                        iconSize: 30,
-                        padding: const EdgeInsets.all(0),
-                        onPressed: audioController.currentlyPlayingSong.value ==
-                                null
-                            ? null
-                            : () {
-                                audioController.playSong(
-                                  audioController.playQueue[
-                                      audioController.playIndex.value - 1],
-                                  audioController
-                                      .playQueue[
-                                          audioController.playIndex.value - 1]
-                                      .uri!,
-                                  audioController.playIndex.value - 1,
-                                );
-                              },
-                        icon: const Icon(
-                          Icons.skip_previous_rounded,
+                      Obx(
+                        () => IconButton(
+                          disabledColor: disabledColor,
+                          color: whiteColor,
+                          iconSize: 30,
+                          padding: const EdgeInsets.all(0),
+                          onPressed: audioController
+                                      .currentlyPlayingSong.value ==
+                                  null
+                              ? null
+                              : () {
+                                  audioController.playSong(
+                                    audioController.playQueue[
+                                        audioController.playIndex.value - 1],
+                                    audioController
+                                        .playQueue[
+                                            audioController.playIndex.value - 1]
+                                        .uri!,
+                                    audioController.playIndex.value - 1,
+                                  );
+                                },
+                          icon: const Icon(
+                            Icons.skip_previous_rounded,
+                          ),
                         ),
                       ),
                       Obx(
@@ -163,27 +166,30 @@ class BottomPlayer extends StatelessWidget {
                                 ),
                         ),
                       ),
-                      IconButton(
-                        disabledColor: disabledColor,
-                        color: whiteColor,
-                        iconSize: 30,
-                        padding: const EdgeInsets.all(0),
-                        onPressed: audioController.currentlyPlayingSong.value ==
-                                null
-                            ? null
-                            : () {
-                                audioController.playSong(
-                                  audioController.playQueue[
-                                      audioController.playIndex.value + 1],
-                                  audioController
-                                      .playQueue[
-                                          audioController.playIndex.value + 1]
-                                      .uri!,
-                                  audioController.playIndex.value + 1,
-                                );
-                              },
-                        icon: const Icon(
-                          Icons.skip_next_rounded,
+                      Obx(
+                        () => IconButton(
+                          disabledColor: disabledColor,
+                          color: whiteColor,
+                          iconSize: 30,
+                          padding: const EdgeInsets.all(0),
+                          onPressed: audioController
+                                      .currentlyPlayingSong.value ==
+                                  null
+                              ? null
+                              : () {
+                                  audioController.playSong(
+                                    audioController.playQueue[
+                                        audioController.playIndex.value + 1],
+                                    audioController
+                                        .playQueue[
+                                            audioController.playIndex.value + 1]
+                                        .uri!,
+                                    audioController.playIndex.value + 1,
+                                  );
+                                },
+                          icon: const Icon(
+                            Icons.skip_next_rounded,
+                          ),
                         ),
                       ),
                     ],
