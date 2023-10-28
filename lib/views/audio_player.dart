@@ -142,14 +142,20 @@ class AudioPlayerScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.shuffle_rounded,
-                              size: 30,
-                              color: Colors.black54,
-                            ),
-                          ),
+                          Obx(() => IconButton(
+                                onPressed: () {
+                                  controller.shufflePlayQueue(
+                                    controller.playIndex.value,
+                                  );
+                                },
+                                icon: Icon(
+                                  Icons.shuffle_rounded,
+                                  size: 30,
+                                  color: controller.isShuffle.value
+                                      ? backgroundDarkColor
+                                      : Colors.black54,
+                                ),
+                              )),
                           IconButton(
                             onPressed: () {
                               controller.playSong(
@@ -212,13 +218,41 @@ class AudioPlayerScreen extends StatelessWidget {
                               color: backgroundDarkColor,
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.repeat,
-                              size: 30,
-                              color: Colors.black54,
-                            ),
+                          Obx(
+                            () => controller.repeatSong.value &
+                                    !controller.repeatPlayQueue.value
+                                ? IconButton(
+                                    onPressed: () {
+                                      controller.normalRepeatFunction();
+                                    },
+                                    icon: const Icon(
+                                      Icons.repeat_one,
+                                      size: 30,
+                                      color: backgroundDarkColor,
+                                    ),
+                                  )
+                                : controller.repeatPlayQueue.value &
+                                        !controller.repeatSong.value
+                                    ? IconButton(
+                                        onPressed: () {
+                                          controller.repeatSongFunction();
+                                        },
+                                        icon: const Icon(
+                                          Icons.repeat,
+                                          size: 30,
+                                          color: backgroundDarkColor,
+                                        ),
+                                      )
+                                    : IconButton(
+                                        onPressed: () {
+                                          controller.repeatPlayQueueFunction();
+                                        },
+                                        icon: const Icon(
+                                          Icons.repeat,
+                                          size: 30,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
                           ),
                         ],
                       ),

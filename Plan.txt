@@ -1,0 +1,7 @@
+Fix Repeat PlayQueue After Last Song In PlayQueue
+Fix Shuffle PlayQueue
+Add Create Playlist to Playlist Page
+Add Shuffle To Playlist,Album,Artist,Genre,Songs
+Add Folders Screen And Playing Song From Folder
+Add Search of AllSongs(Then Maybe Search of Albums,Genre,Playlist,Folder)
+Add Editing Music Info

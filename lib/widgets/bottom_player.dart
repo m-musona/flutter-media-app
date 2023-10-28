@@ -25,7 +25,8 @@ class BottomPlayer extends StatelessWidget {
       child: Column(
         children: [
           Obx(
-            () => audioController.currentlyPlayingSong.value == null
+            () => audioController.currentlyPlayingSong.value == null ||
+                    audioController.max.value == 0.0
                 ? const SizedBox()
                 : SizedBox(
                     width: width,

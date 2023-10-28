@@ -61,7 +61,7 @@ class ListPlaylist extends StatelessWidget {
                 (value) => Get.to(
                   PlaylistSongs(
                     audioController: controller,
-                    songList: controller.playlist,
+                    songList: controller.playlistSongs,
                     playlist: playlist,
                   ),
                 ),

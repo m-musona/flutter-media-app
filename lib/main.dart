@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'controllers/audio_player_controller.dart';
 
 import 'layout.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  var controller = Get.put(AudioPlayerController());
-  controller.getSongs().then(
-        (value) => runApp(const MyApp()),
-      );
+  // WidgetsFlutterBinding.ensureInitialized();
+  // var controller = Get.put(AudioPlayerController());
+  // controller.checkPermission().then(
+  //       (value) => controller.getSongs().then(
+  //             (value) => runApp(const MyApp()),
+  //           ),
+  //     );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
